@@ -1,6 +1,7 @@
 # Algorithmic Geometry, Solutions & Notes
 
 Course: Algorithmic Geometry @ Université Sorbonne Paris Nord, Fall 2026
+
 Professor: [Nabil H. Mustafa](https://lipn.univ-paris13.fr/~mustafa/)
 
 Personal repository of notes, worked exercises, and exam prep for the course.
