@@ -1,5 +1,6 @@
-*.pdf
 *~
+*.aux
+*.log
 
 # OS
 .DS_Store
