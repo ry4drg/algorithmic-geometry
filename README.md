@@ -11,7 +11,7 @@ Written in LaTeX.
 
 | Lecture | Topic | Notes | Exercises |
 |----|-------|-------|-----------|
-| 1 | The experts problem, the online discrepancy problem for intervals. | [notes]() | [exercices](https://github.com/ry4drg/algorithmic-geometry/tree/0b5977a761a25808e5ac55e8c61a6c4b28146bb2/exercises/lecture1-the%20experts%20problem%20and%20the%20online%20discrepancy%20problem%20for%20intervals) |
+| 1 | The experts problem, the online discrepancy problem for intervals. | [notes]() | [exercices](https://github.com/ry4drg/algorithmic-geometry/tree/663a8db385c0c003870f159a7823c426cc0101c1/exercises/lecture1-the%20experts%20problem%20and%20the%20online%20discrepancy%20problem%20for%20intervals/solutions) |
 | 2 | Probability revision. | [notes]() | [exercices](https://www.youtube.com/watch?v=dVCHcU--9aI) |
 | 3 | Probability revision. | [notes](https://lipn.univ-paris13.fr/~mustafa/Teaching/USPN/G4INFGA-2026f/CM/CM3-TD3.pdf) | [exercices](https://www.youtube.com/watch?v=dVCHcU--9aI) |
 
