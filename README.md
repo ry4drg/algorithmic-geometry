@@ -11,7 +11,7 @@ Written in Markdown with LaTeX math. Diagrams as SVG.
 | Lecture | Topic | Notes | Exercises |
 |----|-------|-------|-----------|
 | 1 | The experts problem, the online discrepancy problem for intervals. | [notes]() | [exercices]() |
-| 2 | Probability revision. | [notes]() | [exercices]([exercises/lecture1-the experts problem and the online discrepancy problem for intervals](https://github.com/ry4drg/algorithmic-geometry/tree/0b5977a761a25808e5ac55e8c61a6c4b28146bb2/exercises/lecture1-the%20experts%20problem%20and%20the%20online%20discrepancy%20problem%20for%20intervals)) |
+| 2 | Probability revision. | [notes]() | [exercices](https://github.com/ry4drg/algorithmic-geometry/tree/0b5977a761a25808e5ac55e8c61a6c4b28146bb2/exercises/lecture1-the%20experts%20problem%20and%20the%20online%20discrepancy%20problem%20for%20intervals) |
 | 3 | Probability revision. | [notes]() | [exercices]() |
 
 ## Structure
