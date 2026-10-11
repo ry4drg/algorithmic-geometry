@@ -11,7 +11,7 @@ Written in Markdown with LaTeX math. Diagrams as SVG.
 | Lecture | Topic | Notes | Exercises |
 |----|-------|-------|-----------|
 | 1 | The experts problem, the online discrepancy problem for intervals. | [notes]() | [exercices]() |
-| 2 | Probability revision. | [notes]() | [exercices]() |
+| 2 | Probability revision. | [notes]() | [exercices](exercises/lecture1-the experts problem and the online discrepancy problem for intervals) |
 | 3 | Probability revision. | [notes]() | [exercices]() |
 
 ## Structure
