@@ -1,0 +1,153 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\DeclareMathOperator{\disc}{disc}
+
+\title{Discrepancy Problems: Definition and Context}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{The General Setup}
+
+A \textbf{discrepancy problem} is a class of problems in combinatorics
+and discrepancy theory that asks:
+
+\begin{quote}
+\itshape
+Given a finite set system, can we color the ground set with two colors
+so that every set in the system is as ``balanced'' as possible --- and
+how balanced can we guarantee it to be?
+\end{quote}
+
+More precisely, one is given:
+
+\begin{itemize}
+  \item A \textbf{ground set} \(X\) (usually finite, \(|X| = n\)),
+  \item A \textbf{set system} \(\mathcal{F} \subseteq \mathcal{P}(X)\)
+        --- a family of subsets of \(X\),
+  \item A \textbf{two-coloring} \(\chi \colon X \to \{+1, -1\}\).
+\end{itemize}
+
+For each \(S \in \mathcal{F}\), the \textbf{discrepancy of \(S\)} with
+respect to \(\chi\) is the \emph{imbalance}:
+\[
+\disc_\chi(S)
+= \left| \sum_{x \in S} \chi(x) \right|
+= \bigl| \#\{x \in S : \chi(x) = +1\}
+       - \#\{x \in S : \chi(x) = -1\} \bigr|.
+\]
+
+The \textbf{discrepancy of the set system} \(\mathcal{F}\) is then
+\[
+\disc(\mathcal{F})
+= \min_{\chi \colon X \to \{\pm 1\}}
+  \; \max_{S \in \mathcal{F}} \;
+  \disc_\chi(S).
+\]
+
+That is:
+
+\begin{itemize}
+  \item \textbf{Inner max}: over all sets in the system, how badly can a
+        given coloring unbalance some set?
+  \item \textbf{Outer min}: over all colorings, how well can we do in the
+        worst case?
+\end{itemize}
+
+\hrulefill
+
+\section{What Makes It a ``Problem''?}
+
+The discrepancy problem for a given set system is the task of
+determining (or bounding) \(\disc(\mathcal{F})\), and often of
+explicitly constructing an optimal or near-optimal coloring.
+
+There are several standard variants:
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+\textbf{Variant} & \textbf{Ground set} & \textbf{Set system} & \textbf{Coloring} \\
+\midrule
+\textbf{Combinatorial discrepancy} & Finite set & Arbitrary family & \(\pm 1\) \\
+\textbf{Spencer's problem} & \([n]\) & Arbitrary family of \(m\) sets & \(\pm 1\) \\
+\textbf{Balancing sequences} & \([n]\) & Intervals / prefixes & \(\pm 1\) (or \(\{-1,0,+1\}\)) \\
+\textbf{Geometric discrepancy} & Points in \(\mathbb{R}^d\) & Half-spaces, boxes, etc. & \(\pm 1\) \\
+\textbf{Arithmetic discrepancy} & \(\mathbb{Z}\) or \(\mathbb{Z}_n\) & Arithmetic progressions & \(\pm 1\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\hrulefill
+
+\section{The Key Tension}
+
+The discrepancy problem captures a fundamental tension:
+
+\begin{itemize}
+  \item If we color too \textbf{uniformly} (e.g., half \(+1\), half
+        \(-1\)), small sets might still be very unbalanced (e.g., a
+        singleton is always \(\pm 1\)).
+  \item If we try to \textbf{balance every small set}, we may be forced
+        into a coloring that unbalances some large set badly.
+\end{itemize}
+
+The discrepancy measures the \emph{optimal worst-case tradeoff}.
+
+\hrulefill
+
+\section{Canonical Examples}
+
+\textbf{1. The complete set system \(\mathcal{P}(X)\).}
+As shown earlier, \(\disc(\mathcal{P}(X)) = \lceil n/2 \rceil\). The
+worst sets are the monochromatic ones --- any coloring has a color class
+of size at least \(\lceil n/2 \rceil\), and that class itself is a set in
+the system.
+
+\medskip
+\textbf{2. Intervals on a line.}
+For \(\mathcal{F} = \{\text{intervals in } [n]\}\), the discrepancy is
+much smaller --- it grows like \(\log n\) (a classical result related to
+the Erdős--Szekeres theorem and to the ``Steinitz lemma'' in one
+dimension).
+
+\medskip
+\textbf{3. Arbitrary families of \(m\) sets (Spencer's theorem).}
+For any family of \(m\) subsets of an \(n\)-element set, there exists a
+coloring with discrepancy \(O(\sqrt{m \log(2n/m)})\). This is the
+celebrated \textbf{``six standard deviations suffice''} theorem of
+Spencer (1985).
+
+\medskip
+\textbf{4. Arithmetic progressions (Erdős discrepancy problem).}
+For colorings of the integers and the system of all finite arithmetic
+progressions, the discrepancy is \emph{unbounded} --- this was the
+Erdős discrepancy problem, resolved affirmatively by Terence Tao in
+2015.
+
+\hrulefill
+
+\section{Summary}
+
+A discrepancy problem is:
+
+\begin{quote}
+\itshape
+The problem of finding a two-coloring of a ground set that minimizes the
+maximum imbalance over a prescribed family of subsets --- and of
+determining how small that minimum can be made.
+\end{quote}
+
+It sits at the intersection of combinatorics, probability, geometry, and
+number theory, and its central question is always the same: \emph{how
+evenly can we distribute two colors across all sets in a given family?}
+
+\end{document}
