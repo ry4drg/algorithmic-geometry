@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\DeclareMathOperator{\disc}{disc}
+
+\title{The Sum Discrepancy Algorithm}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+The ``Sum Discrepancy Algorithm'' is an iterative (or online) approach
+to constructing a low-discrepancy coloring for a set system. Its core
+idea is to process elements one by one and, at each step, assign a color
+that minimizes a specific global objective function, typically the sum
+of the current discrepancies of all sets, weighted to prioritize the
+most imbalanced ones.
+
+\section{Formal Definition}
+
+Given a finite set system \((X, \mathcal{R})\) where \(|X| = n\) and
+\(|\mathcal{R}| = m\). The algorithm processes the elements of \(X\)
+in some order \(v_1, v_2, \dots, v_n\). At the \(t\)-th iteration, it
+determines the color for \(v_t\) using only the information from the
+previously colored elements \(\{v_1, \dots, v_{t-1}\}\).
+
+The decision rule for the color \(\chi(v_t) \in \{-1, +1\}\) is defined
+as follows:
+
+\begin{enumerate}
+  \item \textbf{Compute Current Discrepancies}: For every set
+        \(S \in \mathcal{R}\), calculate its discrepancy
+        \(\disc^t(S)\) based on the colors assigned so far.
+  \item \textbf{Define a Weight Function}: Apply a weight function to
+        these discrepancies. Common choices include:
+        \begin{itemize}
+          \item \textbf{Power Function}:
+                \(\sum_{S \in \mathcal{R}} (\disc^t(S))^c\)
+                for some constant \(c\).
+          \item \textbf{Exponential Function}:
+                \(\sum_{S \in \mathcal{R}} \exp(\eta \cdot \disc^t(S))\)
+                for some scaling parameter \(\eta > 0\).
+        \end{itemize}
+  \item \textbf{Minimize the Objective}: Assign \(v_t\) the color
+        (either \(+1\) or \(-1\)) that minimizes the value of the chosen
+        weight function after this assignment is hypothetically made.
+\end{enumerate}
+
+In essence, the algorithm chooses the color that leads to the smallest
+increase in a weighted sum of all set discrepancies, where sets with
+larger discrepancies contribute more heavily to the sum.
+
+\section{Purpose}
+
+The primary goal of this algorithm is to provide a constructive method
+for finding colorings with low discrepancy. Unlike purely existential
+proofs (like Spencer's theorem), this algorithm is designed to be
+efficient and online, meaning it can be implemented to produce a
+coloring without needing to know the entire set system or the future
+elements in advance. By optimizing a global potential function (the sum
+of weighted discrepancies) rather than greedily fixing only the most
+imbalanced set, it aims to avoid the pitfalls of simpler greedy
+strategies and achieve bounds like \(O(\sqrt{n \log m})\).
+
+If you'd like to explore the analysis of such algorithms in more detail,
+just let me know.
+
+\end{document}
