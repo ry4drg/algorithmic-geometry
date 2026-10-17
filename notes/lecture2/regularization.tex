@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Regularization}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{The Core Idea}
+
+In mathematical terms, a standard learning algorithm seeks to find model parameters \(w\) (e.g., weights and biases) that minimize the empirical risk (training error). However, if the hypothesis space is too complex, the algorithm will overfit the noise in the training data.
+
+\textbf{Regularization} is the mathematical process of adding a penalty term to the objective function to constrain the complexity of the model. It explicitly trades a small increase in training error (bias) for a significant decrease in generalization error (variance).
+
+\hrulefill
+
+\section{Mathematical Definition}
+
+Let \(\mathcal{L}(w)\) be the standard empirical risk (the average loss over the training set, such as Mean Squared Error or Cross-Entropy). 
+
+A regularized objective function \(J(w)\) takes the form:
+\[
+ J(w) = \mathcal{L}(w) + \lambda \Omega(w) 
+\]
+
+Where:
+\begin{itemize}
+    \item \textbf{\(\mathcal{L}(w)\)}: The data-dependent loss (empirical risk) that measures how well the model fits the training data.
+    \item \textbf{\(\Omega(w)\)}: The \textbf{regularization term} (or penalty function), which measures the complexity of the parameters \(w\).
+    \item \textbf{\(\lambda \ge 0\)}: The \textbf{regularization hyperparameter} that controls the strength of the penalty.
+\end{itemize}
+
+The learning algorithm now solves the optimization problem:
+\[
+ w^* = \arg\min_{w} \left[ \mathcal{L}(w) + \lambda \Omega(w) \right] 
+\]
+
+\begin{itemize}
+    \item If \(\lambda = 0\), it is standard empirical risk minimization (high risk of overfitting).
+    \item If \(\lambda \to \infty\), the model is forced to be as simple as possible (high risk of underfitting).
+    \item The optimal \(\lambda\) is typically found via cross-validation.
+\end{itemize}
+
+\hrulefill
+
+\section{Common Mathematical Forms of \(\Omega(w)\)}
+
+\subsection{\(L^2\) Regularization (Ridge / Weight Decay)}
+The penalty is the squared \(L^2\) norm of the weights:
+\[
+ \Omega(w) = \|w\|_2^2 = \sum_{i} w_i^2 
+\]
+\begin{itemize}
+    \item \textbf{Effect:} It forces the weights to be small and spread out. It is strictly convex and differentiable, making optimization easy.
+    \item \textbf{Deep Learning context:} In gradient descent, the gradient of this term is \(2\lambda w\). This means at every step, the weights are multiplied by a factor slightly less than 1 before the gradient update. Hence, it is called \textbf{weight decay}.
+\end{itemize}
+
+\subsection{\(L^1\) Regularization (Lasso)}
+The penalty is the \(L^1\) norm of the weights:
+\[
+ \Omega(w) = \|w\|_1 = \sum_{i} |w_i| 
+\]
+\begin{itemize}
+    \item \textbf{Effect:} It promotes \textbf{sparsity}. The mathematical geometry of the \(L^1\) ball (a diamond shape) causes the optimal solution to often lie on the axes, meaning many weights become exactly zero. This acts as a form of feature selection.
+\end{itemize}
+
+\subsection{Elastic Net}
+A linear combination of \(L^1\) and \(L^2\):
+\[
+ \Omega(w) = \alpha \|w\|_1 + (1-\alpha) \|w\|_2^2 
+\]
+
+\hrulefill
+
+\section{Regularization as a Constraint (Lagrangian Duality)}
+
+Regularization can also be defined mathematically as a constrained optimization problem:
+\[
+ \min_w \mathcal{L}(w) \quad \text{subject to} \quad \Omega(w) \le C 
+\]
+where \(C\) is a constant representing a ``budget'' on model complexity. 
+
+By the \textbf{Karush-Kuhn-Tucker (KKT) conditions} (Lagrange multipliers), this constrained problem is mathematically equivalent to the unconstrained penalized form \(J(w) = \mathcal{L}(w) + \lambda \Omega(w)\), where \(\lambda\) is the Lagrange multiplier determined by \(C\). This shows that regularization restricts the hypothesis class \(\mathcal{H}\) to a bounded subset, thereby reducing its capacity (e.g., VC-dimension) and tightening the generalization bound.
+
+\hrulefill
+
+\section{Other Forms of Regularization in Deep Learning}
+
+Beyond weight penalties, other mathematically rigorous regularization methods include:
+
+\begin{itemize}
+    \item \textbf{Dropout:} During training, each neuron's activation is multiplied by a Bernoulli random variable \(r_i \sim \text{Bernoulli}(p)\). Mathematically, this is equivalent to adding multiplicative noise, which prevents co-adaptation of features and acts as an ensemble method.
+    \item \textbf{Early Stopping:} Stopping the optimization (e.g., gradient descent) before it reaches the minimum of \(\mathcal{L}(w)\). Mathematically, this restricts the optimization trajectory to a small ball around the initialization point, acting implicitly like an \(L^2\) penalty.
+    \item \textbf{Data Augmentation:} Expanding the training set \(S\) with artificially transformed data. In expectation, this smooths the loss landscape, reducing the variance of the learned parameters.
+\end{itemize}
+
+\end{document}

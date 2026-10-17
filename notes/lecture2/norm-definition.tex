@@ -1,0 +1,144 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Norms: Definition and Examples}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition: Norm}
+
+Let \(V\) be a vector space over the field of real numbers
+\(\mathbb{R}\) (or complex numbers \(\mathbb{C}\)). A \textbf{norm} on
+\(V\) is a function
+\[
+  \|\cdot\| : V \to \mathbb{R}
+\]
+that assigns a strictly non-negative real number to every vector in
+\(V\), satisfying the following four axioms for all vectors
+\(x, y \in V\) and all scalars \(c \in \mathbb{R}\):
+
+\begin{enumerate}
+  \item \textbf{Positive Definiteness:} \(\|x\| \ge 0\), and
+        \(\|x\| = 0\) if and only if \(x = 0\).
+        \emph{(The length of a vector is positive, and only the zero
+        vector has zero length.)}
+  \item \textbf{Absolute Homogeneity (Scaling):}
+        \(\|c x\| = |c| \, \|x\|\).
+        \emph{(Scaling a vector by \(c\) scales its length by the
+        absolute value of \(c\).)}
+  \item \textbf{Subadditivity (Triangle Inequality):}
+        \(\|x + y\| \le \|x\| + \|y\|\).
+        \emph{(The length of the sum of two vectors is at most the sum
+        of their lengths.)}
+  \item \textbf{Non-negativity of the norm:} \(\|x\| \ge 0\)
+        \emph{(This is technically implied by 1 and 2, but often listed
+        explicitly).}
+\end{enumerate}
+
+A vector space \(V\) equipped with a norm is called a \textbf{normed
+vector space}, denoted \((V, \|\cdot\|)\).
+
+\hrulefill
+
+\section{The \(L^p\) Norms (The Family of Norms)}
+
+In finite-dimensional spaces like \(\mathbb{R}^n\), the most common
+norms are the \(L^p\) norms. For a vector
+\(x = (x_1, x_2, \dots, x_n) \in \mathbb{R}^n\) and a real number
+\(p \ge 1\), the \(L^p\) norm is defined as:
+\[
+  \|x\|_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p}
+\]
+
+\subsection{Example 1: The \(L^\infty\) Norm (Maximum Norm)}
+
+The \(L^\infty\) norm is the limit of the \(L^p\) norm as
+\(p \to \infty\). It is defined as the maximum absolute value of the
+components of the vector:
+\[
+  \|x\|_\infty = \max_{1 \le i \le n} |x_i|
+\]
+
+\begin{itemize}
+  \item \textbf{Intuition:} This measures the ``worst-case'' or largest
+        single component of a vector.
+  \item \textbf{In Discrepancy Theory:} If you have a
+        set system \(\mathcal{S} = \{S_1, \dots, S_m\}\) and a coloring
+        \(\chi\), the discrepancy vector is
+        \(v = (\chi(S_1), \dots, \chi(S_m))\).
+        The \(L^\infty\) norm is \(\max_i |\chi(S_i)|\). Minimizing
+        this norm over all colorings \(\chi\) gives the standard
+        definition of discrepancy:
+        \(\min_\chi \max_i |\chi(S_i)|\).
+\end{itemize}
+
+\subsection{Example 2: The \(L^2\) Norm (Euclidean Norm)}
+
+The \(L^2\) norm corresponds to \(p=2\). It is the standard
+``straight-line'' distance in Euclidean space:
+\[
+  \|x\|_2 = \sqrt{ \sum_{i=1}^n |x_i|^2 }
+          = \sqrt{x_1^2 + x_2^2 + \dots + x_n^2}
+\]
+
+\begin{itemize}
+  \item \textbf{Intuition:} This measures the standard length of a
+        vector.
+  \item \textbf{In Discrepancy Theory:} The formula in your image is exactly the \(L^2\) norm applied to the
+        discrepancy vector.
+        \[
+          D_2(\mathcal{S})
+          = \min_\chi \sqrt{\chi(S_1)^2 + \dots + \chi(S_m)^2}
+          = \min_\chi \bigl\| (\chi(S_1), \dots, \chi(S_m)) \bigr\|_2
+        \]
+        As your text notes, the \(L^2\) norm is ``friendlier to
+        manipulate algebraically'' because it is a smooth function
+        (unlike the max function), allowing mathematicians to use
+        techniques like linear algebra, Fourier analysis, and calculus
+        to find optimal colorings.
+\end{itemize}
+
+\subsection{Example 3: The \(L^1\) Norm (Taxicab / Manhattan Norm)}
+
+The \(L^1\) norm corresponds to \(p=1\). It is the sum of the absolute
+values of the components:
+\[
+  \|x\|_1 = \sum_{i=1}^n |x_i|
+\]
+
+\begin{itemize}
+  \item \textbf{Intuition:} This is the distance a taxicab would drive
+        in a grid-based city like Manhattan (moving only horizontally
+        and vertically).
+\end{itemize}
+
+\hrulefill
+
+\section{A Concrete Numerical Example}
+
+Let \(v = (3, -4, 0, 1)\) be a vector in \(\mathbb{R}^4\).
+
+\begin{itemize}
+  \item \textbf{\(L^1\) Norm:}
+        \(\|v\|_1 = |3| + |-4| + |0| + |1| = 3 + 4 + 0 + 1 = 8\)
+  \item \textbf{\(L^2\) Norm:}
+        \(\|v\|_2 = \sqrt{3^2 + (-4)^2 + 0^2 + 1^2}
+                  = \sqrt{9 + 16 + 0 + 1}
+                  = \sqrt{26} \approx 5.099\)
+  \item \textbf{\(L^\infty\) Norm:}
+        \(\|v\|_\infty = \max(|3|, |-4|, |0|, |1|) = 4\)
+\end{itemize}
+
+Notice that for any vector,
+\(\|v\|_\infty \le \|v\|_2 \le \|v\|_1\). This relationship is a
+fundamental result in normed spaces: all norms on a finite-dimensional
+vector space are equivalent (they bound each other up to a constant
+factor depending on the dimension).
+
+\end{document}

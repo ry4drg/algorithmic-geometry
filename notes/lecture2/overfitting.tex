@@ -1,0 +1,90 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Overfitting}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{The Generalization Framework}
+
+Let the true data-generating distribution be \(\mathcal{D}\) over an input space \(\mathcal{X}\) and an output space \(\mathcal{Y}\). 
+Let the hypothesis class (the set of all possible neural networks with a fixed architecture) be \(\mathcal{H}\).
+
+A learning algorithm receives a finite \textbf{training sample} of size \(n\), drawn independently and identically (i.i.d.) from \(\mathcal{D}\):
+\[
+ S = \{(x_1, y_1), (x_2, y_2), \dots, (x_n, y_n)\} \sim \mathcal{D}^n 
+\]
+
+Let \(h \in \mathcal{H}\) be a specific model (a specific set of weights). We define the \textbf{loss function} as \(\ell(h(x), y)\). 
+
+We have two distinct error measures:
+
+\begin{enumerate}
+    \item \textbf{Empirical Risk (Training Error):} The average loss on the training set \(S\).
+    \[
+     \hat{R}_S(h) = \frac{1}{n} \sum_{i=1}^n \ell(h(x_i), y_i) 
+    \]
+    \item \textbf{True Risk (Generalization Error):} The expected loss over the entire distribution \(\mathcal{D}\) (unseen data).
+    \[
+     R(h) = \mathbb{E}_{(x,y) \sim \mathcal{D}} [\ell(h(x), y)] 
+    \]
+\end{enumerate}
+
+\hrulefill
+
+\section{Mathematical Definition of Overfitting}
+
+Let \(\mathcal{A}(S)\) be the learning algorithm (e.g., stochastic gradient descent) that outputs a hypothesis \(h_S \in \mathcal{H}\) trained on the sample \(S\). 
+
+\textbf{Overfitting occurs when the empirical risk is significantly lower than the true risk:}
+\[
+ \hat{R}_S(h_S) \ll R(h_S) 
+\]
+Or equivalently, the \textbf{generalization gap} (or generalization error) is large:
+\[
+ \text{Gap}(h_S) = R(h_S) - \hat{R}_S(h_S) \gg 0 
+\]
+
+\textbf{The Mechanism (How it happens):} 
+The learning algorithm minimizes the empirical risk. As model capacity increases, the algorithm finds a hypothesis \(h_S\) that perfectly interpolates the training data (so \(\hat{R}_S \to 0\)), but in doing so, it fits the \emph{aleatoric noise} (random variance) present in the sample \(S\). Because this noise does not exist in the true distribution \(\mathcal{D}\), the true risk \(R(h_S)\) remains high.
+
+\hrulefill
+
+\section{The Bias-Variance Decomposition}
+
+To see this algebraically, let us look at the expected squared error for a regression problem. For a test point \(x\), let \(y = f(x) + \epsilon\), where \(\mathbb{E}[\epsilon] = 0\) and \(\text{Var}(\epsilon) = \sigma^2\) (the irreducible noise). 
+
+The expected mean squared error at \(x\) over all possible training sets is decomposed as:
+\[
+ \mathbb{E}_S \left[ (y - h_S(x))^2 \right] = \underbrace{\left( \mathbb{E}_S[h_S(x)] - f(x) \right)^2}_{\text{Bias}^2} + \underbrace{\mathbb{E}_S \left[ \left( h_S(x) - \mathbb{E}_S[h_S(x)] \right)^2 \right]}_{\text{Variance}} + \underbrace{\sigma^2}_{\text{Noise}} 
+\]
+
+\begin{itemize}
+    \item \textbf{Bias:} Error from erroneous assumptions in the learning algorithm (e.g., a linear model trying to fit a parabola). High bias causes \textbf{underfitting}.
+    \item \textbf{Variance:} Error from sensitivity to small fluctuations in the training set. A model with high variance pays too much attention to the training data (including the noise \(\epsilon\)).
+\end{itemize}
+
+\textbf{Overfitting is the regime of High Variance:} The model's output \(h_S(x)\) changes drastically depending on which specific training set \(S\) it saw, meaning the Variance term dominates the error.
+
+\hrulefill
+
+\section{The Capacity / Approximation-Estimation Tradeoff}
+
+Let \(\mathcal{H}\) be the hypothesis class. The expected risk of the best model in \(\mathcal{H}\) can be bounded by:
+\[
+ R(h_S) \le \underbrace{R(h^*)}_{\text{Approximation Error}} + \underbrace{O\left(\sqrt{\frac{\text{Complexity}(\mathcal{H})}{n}}\right)}_{\text{Estimation Error}} 
+\]
+where \(h^* = \arg\min_{h \in \mathcal{H}} R(h)\) is the best possible model in \(\mathcal{H}\), and \(\text{Complexity}(\mathcal{H})\) is a measure of the model's capacity (e.g., VC-dimension, Rademacher complexity, or number of parameters).
+
+\begin{itemize}
+    \item If we restrict \(\mathcal{H}\) (low complexity), the Estimation Error is small, but the Approximation Error is large (\textbf{Underfitting}).
+    \item If we make \(\mathcal{H}\) extremely complex (e.g., a massive deep neural network), the Approximation Error goes to zero. However, the Estimation Error grows because the term \(\sqrt{\text{Complexity}(\mathcal{H})/n}\) increases. The algorithm can now find an \(h_S\) that minimizes \(\hat{R}_S\) but is far from \(h^*\) in terms of true risk (\textbf{Overfitting}).
+\end{itemize}
+
+\end{document}

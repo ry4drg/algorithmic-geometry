@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Incidence Matrix}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition: Incidence Matrix}
+
+Let \(V\) be a finite set of \(n\) elements (often called vertices, points, or elements), and let \(\mathcal{F} = \{S_1, S_2, \dots, S_m\}\) be a family of \(m\) subsets of \(V\). 
+
+The \textbf{incidence matrix} of the set system \((V, \mathcal{F})\) is an \(m \times n\) matrix \(A\) whose rows are indexed by the sets \(S_i\) and whose columns are indexed by the elements \(v_j \in V\). 
+
+The entries of the matrix, \(a_{i,j}\), are defined as:
+\[
+ a_{i,j} = \begin{cases} 1 & \text{if } v_j \in S_i \\ 0 & \text{if } v_j \notin S_i \end{cases} 
+\]
+
+In other words, a \(1\) in row \(i\) and column \(j\) indicates that the element \(v_j\) is \emph{incident} to (contained in) the set \(S_i\). (Note: In some algebraic graph theory contexts, entries can be \(-1\) to denote direction, but in discrepancy theory and set systems, they are strictly \(0\) and \(1\)).
+
+\hrulefill
+
+\section{Concrete Example}
+
+Let \(V = \{a, b, c, d\}\) be a ground set of 4 elements.
+Let \(\mathcal{F}\) be a set system containing 3 subsets:
+\begin{itemize}
+    \item \(S_1 = \{a, b, c\}\)
+    \item \(S_2 = \{b, d\}\)
+    \item \(S_3 = \{a, c, d\}\)
+\end{itemize}
+
+To build the incidence matrix \(A\), we create 3 rows (for the sets) and 4 columns (for the elements \(a, b, c, d\) in order):
+
+\[
+A = \begin{array}{c} \\ S_1 \\ S_2 \\ S_3 \end{array}
+\begin{array}{c} 
+\begin{matrix} a & \;\; b & \;\; c & \;\; d \end{matrix} \\
+\begin{pmatrix}
+1 & 1 & 1 & 0 \\
+0 & 1 & 0 & 1 \\
+1 & 0 & 1 & 1 
+\end{pmatrix}
+\end{array}
+\]
+
+\begin{itemize}
+    \item Look at Row 1 (\(S_1\)): It has 1s in columns \(a, b,\) and \(c\), because those elements are in \(S_1\). It has a 0 in column \(d\).
+    \item Look at Row 2 (\(S_2\)): It has 1s in columns \(b\) and \(d\).
+    \item Look at Row 3 (\(S_3\)): It has 1s in columns \(a, c,\) and \(d\).
+\end{itemize}
+
+\hrulefill
+
+\section{How the Incidence Matrix Works in Discrepancy Theory}
+
+The incidence matrix allows us to turn combinatorial set operations into linear algebra.
+
+Let \(\chi\) be a coloring vector. If we have elements \(V = \{a, b, c, d\}\), the coloring is a column vector:
+\[
+ \mathbf{x} = \begin{pmatrix} \chi(a) \\ \chi(b) \\ \chi(c) \\ \chi(d) \end{pmatrix} \in \{-1, 1\}^4 
+\]
+
+Now, let's multiply the incidence matrix \(A\) by the coloring vector \(\mathbf{x}\):
+
+\[
+A\mathbf{x} = 
+\begin{pmatrix}
+1 & 1 & 1 & 0 \\
+0 & 1 & 0 & 1 \\
+1 & 0 & 1 & 1 
+\end{pmatrix}
+\begin{pmatrix} \chi(a) \\ \chi(b) \\ \chi(c) \\ \chi(d) \end{pmatrix}
+= 
+\begin{pmatrix}
+\chi(a) + \chi(b) + \chi(c) \\
+\chi(b) + \chi(d) \\
+\chi(a) + \chi(c) + \chi(d)
+\end{pmatrix}
+\]
+
+Notice what happened: \textbf{The \(i\)-th entry of the resulting vector \(A\mathbf{x}\) is exactly the sum of the colors of the elements inside the set \(S_i\).}
+
+Therefore, the discrepancy vector (the imbalances of all the sets) is simply the matrix-vector product \(A\mathbf{x}\). The problem of finding a coloring that minimizes discrepancy is algebraically characterized as finding a vector \(\mathbf{x} \in \{-1, 1\}^n\) that minimizes the norm of \(A\mathbf{x}\).
+
+\end{document}
