@@ -1,0 +1,65 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Definition of a Cut in Graph Theory}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition: Cut (in a Graph)}
+
+Let \(G = (V, E)\) be an undirected graph, where \(V\) is the set of vertices and \(E\) is the set of edges. 
+
+A \textbf{cut} is a partition of the vertex set \(V\) into two disjoint subsets, usually denoted \(S\) and \(V \setminus S\) (or \(S\) and \(T\)). 
+
+We say that an edge \(e = \{u, v\} \in E\) \textbf{crosses the cut} (or is a \textbf{cut edge}) if its endpoints belong to different subsets. That is, the edge crosses the cut if \(u \in S\) and \(v \in V \setminus S\), or vice versa.
+
+\subsection*{The Size of a Cut}
+The size of a cut, denoted \(|C|\) or \(\delta(S)\), is the number of edges crossing the cut:
+\[
+ \delta(S) = |\{ \{u, v\} \in E : u \in S \text{ and } v \notin S \}| 
+\]
+
+\emph{(Note: In a directed graph, a cut is defined similarly, but we only count edges that go from \(S\) to \(V \setminus S\).)}
+
+\hrulefill
+
+\section{Geometric \& Algebraic Intuition}
+
+\begin{itemize}
+    \item \textbf{Geometrically:} Imagine the graph drawn on a piece of paper. A cut is a literal line (or curve) drawn through the graph that divides the vertices into two groups. The ``size'' of the cut is the number of edges that you physically have to cut with scissors to separate the two groups.
+    \item \textbf{Algebraically (using a coloring vector):} If we assign every vertex to a set using a function \(\chi: V \to \{-1, +1\}\), an edge \(\{u,v\}\) crosses the cut if and only if \(\chi(u) \neq \chi(v)\). The size of the cut is the sum over all edges of the indicator that they cross:
+    \[
+ |C| = \sum_{\{u,v\} \in E} \frac{1 - \chi(u)\chi(v)}{2} 
+\]
+\end{itemize}
+
+\hrulefill
+
+\section{Examples}
+
+\begin{enumerate}
+    \item \textbf{Complete Graph (\(K_n\)):} 
+    If you have \(n\) vertices all connected to each other, and you split them into sets of size \(k\) and \(n-k\), every vertex in the first set is connected to every vertex in the second set. The size of this cut is exactly \(k(n-k)\). The \textbf{Max-Cut} of a complete graph is \(\lfloor n^2/4 \rfloor\) (by splitting the vertices as evenly as possible).
+    \item \textbf{Bipartite Graph:}
+    A graph is bipartite if and only if its vertices can be partitioned into two sets \(S\) and \(T\) such that \emph{every} edge in the graph crosses the cut. The size of this cut is exactly \(|E|\).
+    \item \textbf{Cycle Graph (\(C_n\)):}
+    If you have a ring of \(n\) vertices, cutting it into two contiguous halves will cut exactly 2 edges.
+\end{enumerate}
+
+\hrulefill
+
+\section{Related Concepts}
+\begin{itemize}
+    \item \textbf{Min-Cut:} The partition that minimizes the number of crossing edges. (Famous for the \textbf{Max-Flow Min-Cut Theorem} in network flow).
+    \item \textbf{Max-Cut:} The partition that maximizes the number of crossing edges. (Famous because it is NP-hard, as discussed earlier).
+    \item \textbf{Sparsest Cut:} A cut that minimizes the ratio of crossing edges to the size of the smallest resulting set. (Highly relevant in graph clustering and machine learning).
+    \item \textbf{Cut Vertex / Articulation Point:} A single vertex whose removal disconnects the graph (different from a cut edge, which is an edge whose removal disconnects the graph).
+\end{itemize}
+
+\end{document}
