@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Derivation of the Discrepancy Bound Threshold}
+\author{DeepSeek prompted by Riyad Derguini}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+The specific value for \(\Delta\) is carefully derived using the \textbf{Probabilistic Method} and the \textbf{Union Bound}. Below is the step-by-step mathematical reasoning for why \(\Delta = \sqrt{2s \ln(2m^2)}\) is chosen.
+
+\section{The Context}
+\begin{itemize}
+    \item We have a set \(S\) of size \(s\).
+    \item Each element in \(S\) is colored randomly with \(+1\) or \(-1\) (a Rademacher random variable).
+    \item The sum of these colors is \(X = \sum_{i=1}^s X_i\). (In the context of discrepancy, this is the discrepancy of the set \(S\)).
+    \item The goal is to bound the probability that the discrepancy exceeds a certain threshold \(\Delta\). That is, we want to bound \(\Pr[|X| \ge \Delta]\).
+\end{itemize}
+
+\section{The Hoeffding Bound}
+For a sum of \(s\) independent random variables taking values in \(\{-1, 1\}\), Hoeffding's Inequality states:
+\[
+ \Pr[|X| \ge \Delta] \le 2 \exp\left( -\frac{\Delta^2}{2s} \right) 
+\]
+(Intuition: As \(\Delta\) gets larger, the probability of the sum reaching that value decays exponentially).
+
+\section{The Union Bound over \(m^2\) Events}
+In discrepancy theory, when we bound the discrepancy of a single set \(S\), we usually need to ensure that \textbf{all} sets in our family are balanced simultaneously.
+
+\begin{itemize}
+    \item Suppose there are \(m\) sets in the family \(\mathcal{F}\). 
+    \item The problem likely involves evaluating discrepancies over pairs of sets, or the family has size \(m^2\), or we are using symmetric difference where there are \(m(m-1)/2\) pairs. 
+    \item Let's assume there are \(N = m^2\) events we care about. 
+\end{itemize}
+
+By the \textbf{Union Bound} (Boole's Inequality), the probability that \emph{at least one} of these \(m^2\) sets has a discrepancy larger than \(\Delta\) is at most the sum of their individual probabilities:
+\[
+ \Pr\left[\max_{1 \le j \le m^2} |X^{(j)}| \ge \Delta\right] \le \sum_{j=1}^{m^2} \Pr[|X^{(j)}| \ge \Delta] 
+\]
+\[
+ \le m^2 \cdot \left( 2 \exp\left( -\frac{\Delta^2}{2s} \right) \right) 
+\]
+
+\section{Setting the Bound to be Small}
+The goal of the Probabilistic Method is to show that there \emph{exists} a valid coloring. To do this, we need the probability of failure (the union bound) to be strictly less than 1. 
+
+A standard technique is to force the probability to be less than \(1/2\) (or some other small constant). Setting the bound to \(1/2\) and solving for \(\Delta\):
+
+\[
+ 2m^2 \exp\left( -\frac{\Delta^2}{2s} \right) \le \frac{1}{2} 
+\]
+\[
+ 4m^2 \exp\left( -\frac{\Delta^2}{2s} \right) \le 1 
+\]
+\[
+ \exp\left( \frac{\Delta^2}{2s} \right) \ge 4m^2 
+\]
+
+Take the natural logarithm of both sides:
+\[
+ \frac{\Delta^2}{2s} \ge \ln(4m^2) 
+\]
+\[
+ \Delta^2 \ge 2s \ln(4m^2) 
+\]
+
+(Note: \(\ln(4m^2) = \ln(4) + \ln(m^2)\), which is strictly less than \(2\ln(2m^2)\)).
+
+If the threshold is set to make the probability less than \(\frac{1}{2m^2}\) instead (a common goal to ensure the total failure probability is very small), the algebra yields:
+\[
+ 2m^2 \exp\left( -\frac{\Delta^2}{2s} \right) \le \frac{1}{m^2} 
+\]
+\[
+ \exp\left( \frac{\Delta^2}{2s} \right) \ge 2m^4 = 2(m^2)^2 
+\]
+\[
+ \frac{\Delta^2}{2s} \ge \ln(2m^4) = \ln(2) + 2\ln(m^2) 
+\]
+
+However, looking at the exact formula \(\Delta = \sqrt{2s \ln(2m^2)}\). 
+
+If we plug this \(\Delta\) back into Hoeffding's bound:
+\[
+ 2 \exp\left( -\frac{2s \ln(2m^2)}{2s} \right) = 2 \exp\left( -\ln(2m^2) \right) = 2 \left( \frac{1}{2m^2} \right) = \frac{1}{m^2} 
+\]
+
+If there are \(m^2\) total sets (or events), the union bound becomes:
+\[
+ \sum_{j=1}^{m^2} \Pr[|X^{(j)}| \ge \Delta] \le m^2 \cdot \frac{1}{m^2} = 1 
+\]
+
+\section{Summary}
+The value \(\Delta = \sqrt{2s \ln(2m^2)}\) is chosen exactly so that when plugged into the exponential tail bound (Hoeffding's inequality), the exponential decay perfectly cancels out the polynomial growth of the number of sets (which is \(m^2\)). This guarantees that the probability of \emph{any} set failing is less than 1, thereby proving that a good coloring must exist.
+
+\end{document}

@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Definition and Properties of the Symmetric Difference}
+\author{DeepSeek prompted by Riyad Derguini}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition: Symmetric Difference}
+
+Let \(A\) and \(B\) be two sets. The \textbf{symmetric difference} of \(A\) and \(B\), denoted as \(A \triangle B\) (or sometimes \(A \oplus B\)), is the set of elements that are in exactly one of the two sets. 
+
+Mathematically, it is the union of the two sets minus their intersection:
+\[
+ A \triangle B = (A \cup B) \setminus (A \cap B) 
+\]
+
+Equivalently, it is the union of the relative complements:
+\[
+ A \triangle B = (A \setminus B) \cup (B \setminus A) 
+\]
+
+In formal set-builder notation:
+\[
+ A \triangle B = \{ x \mid (x \in A \text{ and } x \notin B) \text{ or } (x \notin A \text{ and } x \in B) \} 
+\]
+
+\hrulefill
+
+\section{Concrete Example}
+
+Let \(A = \{1, 2, 3\}\) and \(B = \{3, 4, 5\}\).
+\begin{itemize}
+    \item Elements in exactly one set: \(1, 2, 4, 5\).
+    \item The element they share: \(3\).
+\end{itemize}
+
+Therefore, the symmetric difference is:
+\[
+ A \triangle B = \{1, 2, 4, 5\} 
+\]
+
+\hrulefill
+
+\section{Algebraic Properties}
+
+The symmetric difference has strong algebraic properties, which is why it is used heavily in computer science, cryptography (e.g., XOR operations), and discrepancy theory.
+
+\begin{enumerate}
+    \item \textbf{Commutativity:} \( A \triangle B = B \triangle A \)
+    \item \textbf{Associativity:} \( (A \triangle B) \triangle C = A \triangle (B \triangle C) \)
+    \item \textbf{Self-Inverse:} \( A \triangle A = \emptyset \)
+    \item \textbf{Identity:} \( A \triangle \emptyset = A \)
+\end{enumerate}
+
+\textbf{The Connection to Algebra:} If the power set of a universe \(U\) (the set of all subsets) is treated as a vector space over the finite field of two elements \(\mathbb{F}_2\), the symmetric difference acts as \textbf{vector addition}. Under this lens, the symmetric difference corresponds exactly to the \textbf{XOR operation} in binary logic.
+
+\hrulefill
+
+\section{Why is this used in Discrepancy Theory?}
+
+The symmetric difference motivates the use of \(m^2\) events in the union bound. Here is why:
+
+In discrepancy theory, a coloring \(\chi(x) \in \{-1, 1\}\) is assigned to elements. The discrepancy of a set \(S\) is \(\chi(S) = \sum_{x \in S} \chi(x)\).
+
+Consider the symmetric difference of two sets \(A\) and \(B\) in terms of their discrepancy:
+\[
+ \chi(A \triangle B) = \sum_{x \in A \triangle B} \chi(x) 
+\]
+Because \(A \triangle B\) contains elements in exactly one of the sets, this relates to the discrepancy of \(A\) and \(B\):
+\[
+ \chi(A \triangle B) = \chi(A) + \chi(B) - 2\chi(A \cap B) 
+\]
+
+\textbf{The critical trick:} 
+To bound the discrepancy of \emph{all} sets in a family \(\mathcal{F}\), mathematicians can look at the differences between sets. Proving that the discrepancy of every set is small is mathematically equivalent to proving that the discrepancy of the symmetric difference of every pair of sets \((A, B)\) is small. 
+
+If there are \(m\) sets in the family \(\mathcal{F}\), there are \(\binom{m}{2} = \frac{m(m-1)}{2}\) pairs of sets. This is the origin of the \textbf{\(m^2\)} term in the Union Bound. A probability bound is applied to the symmetric differences of all possible pairs of sets, which yields roughly \(m^2\) events to control.
+
+\end{document}
