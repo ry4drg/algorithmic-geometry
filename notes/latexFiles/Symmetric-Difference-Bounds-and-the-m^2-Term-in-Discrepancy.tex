@@ -1,0 +1,104 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Symmetric Difference Bounds and the \(m^2\) Term in Discrepancy}
+\author{DeepSeep prompted by Riyad Derguini}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{The Setup}
+Suppose we have a universe of elements, and a family of \(m\) sets: \(\mathcal{F} = \{S_1, S_2, \dots, S_m\}\). 
+We assign a coloring \(\chi(x) \in \{-1, 1\}\) to every element. 
+
+For any set \(S\), its \textbf{discrepancy} (imbalance) is defined as:
+\[
+ d(S) = \sum_{x \in S} \chi(x) 
+\]
+The goal is to find a coloring such that for all \(S_i \in \mathcal{F}\), the discrepancy \(|d(S_i)|\) is small.
+
+\hrulefill
+
+\section{The Example (Illustrating the Equivalence)}
+
+Let's take a universe \(U = \{1, 2, 3\}\). 
+We have two sets: \(A = \{1, 2\}\) and \(B = \{2, 3\}\).
+
+Assign a fixed coloring: \(\chi(1) = +1\), \(\chi(2) = +1\), \(\chi(3) = -1\).
+
+\textbf{Calculate the discrepancies of the sets:}
+\begin{itemize}
+    \item \(d(A) = \chi(1) + \chi(2) = (+1) + (+1) = 2\)
+    \item \(d(B) = \chi(2) + \chi(3) = (+1) + (-1) = 0\)
+\end{itemize}
+
+\textbf{Now, calculate the symmetric difference:}
+The symmetric difference \(A \triangle B\) is the set of elements in exactly one of them. 
+\(A \triangle B = \{1, 3\}\).
+
+\textbf{Calculate the discrepancy of the symmetric difference:}
+\begin{itemize}
+    \item \(d(A \triangle B) = \chi(1) + \chi(3) = (+1) + (-1) = 0\)
+\end{itemize}
+
+\textbf{The Critical Algebraic Connection:}
+Notice the relationship between these numbers. Consider the formula:
+\[
+ d(A \triangle B) = d(A) + d(B) - 2d(A \cap B) 
+\]
+Checking: \(A \cap B = \{2\}\), so \(d(A \cap B) = \chi(2) = +1\).
+\[
+ d(A \triangle B) = 2 + 0 - 2(+1) = 0 
+\]
+The math works perfectly.
+
+\hrulefill
+
+\section{The ``Why'': Bounding the Difference}
+
+To see why bounding the symmetric difference helps bound the sets themselves:
+
+Suppose a reference set, say \(S_1\), is fixed. We want to ensure that \(S_1\) and every other set \(S_i\) have a small discrepancy. 
+
+If it can be proven that \textbf{every pair of sets} \((S_i, S_j)\) has a small symmetric difference, this essentially proves that their discrepancies are close to each other. 
+
+\textbf{The Triangle Inequality Trick:}
+Using the standard triangle inequality for absolute values:
+\[
+ |d(S_i) - d(S_j)| = |d(S_i \setminus S_j) - d(S_j \setminus S_i)| \le |d(S_i \setminus S_j)| + |d(S_j \setminus S_i)| 
+\]
+But the symmetric difference is the union of these two disjoint pieces:
+\[
+ |d(S_i \triangle S_j)| = |d(S_i \setminus S_j)| + |d(S_j \setminus S_i)| 
+\]
+
+Therefore:
+\[
+ |d(S_i) - d(S_j)| \le |d(S_i \triangle S_j)| 
+\]
+
+\textbf{The Conclusion:} If the symmetric difference of \emph{every pair} is bounded by some small value \(\Delta\), then the discrepancy of any two sets differs by at most \(\Delta\). If one set is anchored (or the average is used), the whole family can be bounded.
+
+\hrulefill
+
+\section{Why does this lead to the \(m^2\) in the probability proof?}
+
+In the probabilistic method (using the Union Bound), the goal is to calculate the probability that \emph{any} symmetric difference is large. 
+
+\begin{itemize}
+    \item How many pairs of sets \((A, B)\) are there in a family of \(m\) sets? 
+    \item There are \(\binom{m}{2} = \frac{m(m-1)}{2}\) pairs.
+\end{itemize}
+
+Because the number of pairs is roughly \(\frac{m^2}{2}\), when the Union Bound is applied, the factor of \(m^2\) naturally appears in front of the probability equation:
+\[
+ \Pr(\text{any symmetric difference is large}) \le \binom{m}{2} \times \Pr(\text{one symmetric difference is large}) 
+\]
+
+To make this total probability less than 1, the individual probability must be made incredibly small (on the order of \(1/m^2\)). This is exactly why the threshold was set to \(\Delta = \sqrt{2s \ln(2m^2)}\) in the earlier derivation: the \(m^2\) inside the logarithm is specifically there to cancel out the \(\binom{m}{2}\) number of pairs.
+
+\end{document}
