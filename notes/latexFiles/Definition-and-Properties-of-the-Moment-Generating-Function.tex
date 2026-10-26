@@ -1,0 +1,113 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Definition and Properties of the Moment Generating Function}
+\author{DeepSeek prompted by Riyad Derguini}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition: Moment Generating Function}
+
+Let \(X\) be a random variable. The \textbf{Moment Generating Function (MGF)} of \(X\) is a function \(M_X : \mathbb{R} \to [0, \infty]\) defined by:
+\[
+ M_X(t) = \mathbb{E}[e^{tX}] 
+\]
+for all \(t \in \mathbb{R}\) for which the expectation is finite. 
+
+If \(X\) is a discrete random variable with probability mass function \(p(x)\), this is:
+\[
+ M_X(t) = \sum_x e^{tx} p(x) 
+\]
+If \(X\) is a continuous random variable with probability density function \(f(x)\), this is:
+\[
+ M_X(t) = \int_{-\infty}^{\infty} e^{tx} f(x) \, dx 
+\]
+
+\hrulefill
+
+\section{Why is it called ``Moment Generating''?}
+
+The name comes from the fact that if you differentiate \(M_X(t)\) at \(t = 0\), you generate the \textbf{moments} of the random variable (its expected value, expected square, expected cube, etc.).
+
+We can see this by expanding \(e^{tX}\) using its Maclaurin series:
+\[
+ e^{tX} = 1 + tX + \frac{(tX)^2}{2!} + \frac{(tX)^3}{3!} + \dots 
+\]
+Taking the expectation of both sides:
+\[
+ M_X(t) = \mathbb{E}[e^{tX}] = 1 + t\mathbb{E}[X] + \frac{t^2}{2!}\mathbb{E}[X^2] + \frac{t^3}{3!}\mathbb{E}[X^3] + \dots 
+\]
+
+Now, take the \(k\)-th derivative of \(M_X(t)\) and evaluate it at \(t=0\):
+\begin{itemize}
+    \item \(M_X'(0) = \mathbb{E}[X]\) (the 1st moment, or mean)
+    \item \(M_X''(0) = \mathbb{E}[X^2]\) (the 2nd moment)
+    \item \(M_X^{(k)}(0) = \mathbb{E}[X^k]\) (the \(k\)-th moment)
+\end{itemize}
+
+\hrulefill
+
+\section{Key Properties}
+
+\begin{enumerate}
+    \item \textbf{Independence (The most important property for algorithms/ML):}
+    If \(X\) and \(Y\) are independent random variables, then the MGF of their sum is the product of their MGFs:
+    \[
+ M_{X+Y}(t) = \mathbb{E}[e^{t(X+Y)}] = \mathbb{E}[e^{tX}e^{tY}] = \mathbb{E}[e^{tX}]\mathbb{E}[e^{tY}] = M_X(t) M_Y(t) 
+\]
+    This property allows the multiplication of the MGFs of individual independent elements to obtain the MGF of the whole sum.
+
+    \item \textbf{Uniqueness:}
+    If two random variables have the same MGF in an open interval around \(t=0\), they have the exact same probability distribution.
+\end{enumerate}
+
+\hrulefill
+
+\section{Connection to the Chernoff Bound}
+
+The MGF is the fundamental tool of the \textbf{Chernoff Method}. The basic inequality states that for any \(t > 0\),
+\[
+ \Pr(X \ge a) = \Pr(e^{tX} \ge e^{ta}) \le \frac{\mathbb{E}[e^{tX}]}{e^{ta}} = \frac{M_X(t)}{e^{ta}} 
+\]
+By calculating the MGF, a problem about probabilities is transformed into a problem about algebra. One then chooses \(t\) to minimize the right-hand side, yielding an exponentially decaying bound on the tail probability.
+
+\hrulefill
+
+\section{Examples of MGFs}
+
+\begin{itemize}
+    \item \textbf{Rademacher (coin flip, \(\pm 1\) with probability \(1/2\)):}
+    \[
+ M_X(t) = \frac{1}{2}e^t + \frac{1}{2}e^{-t} = \cosh(t) 
+\]
+    \item \textbf{Normal Distribution \(\mathcal{N}(\mu, \sigma^2)\):}
+    \[
+ M_X(t) = \exp\left(\mu t + \frac{1}{2}\sigma^2 t^2\right) 
+\]
+    \item \textbf{Bernoulli(\(p\)):}
+    \[
+ M_X(t) = (1-p) + p e^t 
+\]
+\end{itemize}
+
+\hrulefill
+
+\section{Application to the Discrepancy Proof}
+
+To show that the discrepancy \(D = \sum_{v \in S} \chi(v)\) is concentrated with high probability, one constructs its MGF. 
+Because each \(\chi(v)\) is a Rademacher variable, its MGF is \(\cosh(t)\). Because the variables are independent, the MGF of the sum \(D\) is:
+\[
+ M_D(t) = \prod_{v \in S} \cosh(t) = (\cosh(t))^{|S|} 
+\]
+Using the inequality \( \cosh(t) \le e^{t^2/2} \), this becomes:
+\[
+ M_D(t) \le \left(e^{t^2/2}\right)^{|S|} = e^{|S|t^2/2} 
+\]
+This is the MGF of a Gaussian. By plugging this into the Chernoff bound, one proves that the discrepancy is highly concentrated around \(0\) (with high probability), completing the proof.
+
+\end{document}
