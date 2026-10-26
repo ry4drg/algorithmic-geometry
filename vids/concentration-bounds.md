@@ -4,4 +4,4 @@
 
 # Proof of the Chernoff Bound
 
-![screenshot from mit opcw vid](vids/images/proo of the chernoff bound.png)
+![screenshot from mit opcw vid] (vids/images/proo of the chernoff bound.png)
