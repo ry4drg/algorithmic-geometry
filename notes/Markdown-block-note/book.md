@@ -7,4 +7,4 @@
 
 ### Chernoff's bound
 
-![](images/Screenshot%20from%202026-10-27%2014-23-49.png)
+![](images/Screenshot%20from%202026-10-27%2014-37-03.png)
