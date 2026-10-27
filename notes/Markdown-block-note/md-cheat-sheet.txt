@@ -1,0 +1,50 @@
+# Markdown Syntax Cheat Sheet
+
+## Headings
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+## Emphasis
+*italic* or _italic_
+**bold** or __bold__
+***bold italic***
+~~strikethrough~~
+
+## Lists
+### Unordered
+- Item 1
+- Item 2
+  - Nested item
+
+* Also works with asterisks
++ And plus signs
+
+### Ordered
+1. First
+2. Second
+   1. Nested
+3. Third
+
+### Task Lists
+- [x] Done
+- [ ] Not done
+
+## Links
+[Link text](https://example.com)
+[Link with title](https://example.com "Title")
+<https://autolink.com>
+
+## Images
+![Alt text](image.png)
+![Alt text](image.png "Title")
+
+## Code
+Inline: `code`
+
+Fenced block:
+```python
+print("hello")
