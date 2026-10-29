@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in]{geometry}
+
+\title{Stirling's Approximation: Definition, Bounds, and Derivation}
+\author{Riyad Derguini}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition: Stirling's Approximation}
+
+\textbf{Stirling's Approximation} is an asymptotic formula used to estimate the value of large factorials. It states that as \(n \to \infty\), the factorial function \(n!\) grows at a rate proportional to \(\sqrt{2\pi n} \left(\frac{n}{e}\right)^n\).
+
+\textbf{The General Form:}
+\[
+ n! \sim \sqrt{2\pi n} \left(\frac{n}{e}\right)^n 
+\]
+(The symbol \(\sim\) means asymptotic equivalence: the ratio of the two sides approaches 1 as \(n \to \infty\)).
+
+\textbf{Taking the Natural Logarithm:}
+In computer science and information theory, it is often more useful to work with the logarithm of the factorial:
+\[
+ \ln(n!) \sim n \ln(n) - n + \frac{1}{2}\ln(2\pi n) 
+\]
+Or, written using Big-O notation to show the dominant terms:
+\[
+ \ln(n!) = n \ln(n) - n + O(\ln n) 
+\]
+
+\hrulefill
+
+\section{Rigorous Bounds and Error Terms}
+
+Stirling's approximation is an \emph{asymptotic} series. For small \(n\), the approximation is not very accurate. However, the exact error can be bounded using the following rigorous inequalities for all \(n \ge 1\):
+
+\[
+ \sqrt{2\pi n} \left(\frac{n}{e}\right)^n e^{\frac{1}{12n+1}} < n! < \sqrt{2\pi n} \left(\frac{n}{e}\right)^n e^{\frac{1}{12n}} 
+\]
+
+\textbf{Robbins' Sharp Bound:} A more symmetric and mathematically elegant bound was proven by Herbert Robbins in 1955:
+\[
+ \sqrt{2\pi} n^{n+\frac{1}{2}} e^{-n+\frac{1}{12n+1}} < n! < \sqrt{2\pi} n^{n+\frac{1}{2}} e^{-n+\frac{1}{12n}} 
+\]
+
+\hrulefill
+
+\section{The Higher-Order Series (Asymptotic Expansion)}
+Stirling's approximation is actually the first term of an asymptotic series. For higher precision, the full expansion can be used:
+\[
+ n! = \sqrt{2\pi n} \left(\frac{n}{e}\right)^n \left( 1 + \frac{1}{12n} + \frac{1}{288n^2} - \frac{139}{51840n^3} - O\left(\frac{1}{n^4}\right) \right) 
+\]
+
+\hrulefill
+
+\section{A Brief Derivation Sketch}
+The formula is derived by relating factorials to integrals (sums to areas).
+
+\begin{enumerate}
+    \item The natural logarithm of a factorial is a sum: \(\ln(n!) = \sum_{k=1}^n \ln(k)\).
+    \item This sum can be approximated by the integral \(\int_1^n \ln(x) \, dx\). 
+    \item Using integration by parts, \(\int \ln(x) \, dx = x \ln(x) - x\). Evaluating from \(1\) to \(n\) gives \(n \ln(n) - n + 1\).
+    \item This gives the leading terms: \(\ln(n!) \approx n \ln(n) - n\).
+    \item When the error between the sum (rectangles) and the integral (area under the curve) is carefully analyzed using the Euler-Maclaurin formula, the first error term is \(\frac{1}{2}\ln(2\pi n)\). 
+    \item Exponentiating both sides yields the final formula.
+\end{enumerate}
+
+\hrulefill
+
+\section{Example: \(n = 10\)}
+Test the approximation for \(n=10\).
+\begin{itemize}
+    \item \textbf{Exact:} \(10! = 3,628,800\)
+    \item \textbf{Stirling's Approximation:}
+    \[
+ \sqrt{2\pi(10)} \left(\frac{10}{e}\right)^{10} \approx \sqrt{62.83} \times (3.6788)^{10} \approx 7.927 \times 458,361.3 \approx 3,633,860 
+\]
+    \item \textbf{Error:} The approximation is only about \(0.14\%\) off from the exact value. As \(n\) grows, this error shrinks to zero.
+\end{itemize}
+
+\hrulefill
+
+\section{Why is it used in Machine Learning and Combinatorics?}
+\begin{enumerate}
+    \item \textbf{Entropy and Information Theory:} In ML, the logarithm of binomial coefficients \(\ln \binom{n}{k}\) often needs to be computed. Using Stirling's approximation, \(\ln \binom{n}{k} \approx n H(k/n)\), where \(H\) is the binary entropy function. This connects probability to information theory.
+    \item \textbf{Discrepancy Theory:} It is used to estimate the probability of exactly hitting the mean (0 discrepancy) in a random walk. 
+    \item \textbf{Statistical Mechanics:} The Boltzmann entropy formula \(S = k \ln W\) relies on Stirling's approximation to transition from the discrete counting of microstates to continuous thermodynamics.
+\end{enumerate}
+
+\end{document}
